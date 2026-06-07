@@ -2,9 +2,10 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout Repository') {
             steps {
-                echo 'GitHub repository Jenkins tarafindan alindi.'
+                checkout scm
             }
         }
 
@@ -16,25 +17,32 @@ pipeline {
 
         stage('Deploy Manifests') {
             steps {
-                echo 'kubectl apply -f k8s/ komutu ile manifestler uygulanacak.'
+                sh 'kubectl apply -f k8s/web1-deployment.yaml'
+                sh 'kubectl apply -f k8s/web1-service.yaml'
+
+                sh 'kubectl apply -f k8s/web2-deployment.yaml'
+                sh 'kubectl apply -f k8s/web2-service.yaml'
+
+                sh 'kubectl apply -f k8s/web3-deployment.yaml'
+                sh 'kubectl apply -f k8s/web3-service.yaml'
             }
         }
 
         stage('Apply Ingress') {
             steps {
-                echo 'Ingress kaynaklari uygulanacak.'
+                sh 'kubectl apply -f k8s/ingress.yaml'
             }
         }
 
         stage('Check Pods') {
             steps {
-                echo 'kubectl get pods -n cloud-task ile pod durumlari kontrol edilecek.'
+                sh 'kubectl get pods -n cloud-task'
             }
         }
 
         stage('Check Services') {
             steps {
-                echo 'kubectl get services -n cloud-task ile service durumlari kontrol edilecek.'
+                sh 'kubectl get services -n cloud-task'
             }
         }
 
