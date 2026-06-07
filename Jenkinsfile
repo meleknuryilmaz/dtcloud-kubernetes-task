@@ -10,7 +10,7 @@ pipeline {
 
         stage('List Kubernetes Files') {
             steps {
-                bat 'dir k8s'
+                sh 'ls -la k8s'
             }
         }
 
