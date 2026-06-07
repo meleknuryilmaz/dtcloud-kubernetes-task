@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web3-service
+  namespace: cloud-task
+spec:
+  type: ClusterIP
+  selector:
+    app: web3
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5678

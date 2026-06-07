@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+  namespace: cloud-task
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /web1
+        pathType: Prefix
+        backend:
+          service:
+            name: web1-service
+            port:
+              number: 80
+      - path: /web2
+        pathType: Prefix
+        backend:
+          service:
+            name: web2-service
+            port:
+              number: 80
+      - path: /web3
+        pathType: Prefix
+        backend:
+          service:
+            name: web3-service
+            port:
+              number: 80
